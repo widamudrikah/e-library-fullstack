@@ -15,7 +15,8 @@ class BookController extends Controller
         return view('admin.books.index', compact('books'));
     }
 
-    public function detail($id) {
+    public function detail($id)
+    {
         $book = Book::find($id);
         return view('admin.books.detail', compact('book'));
     }
@@ -29,15 +30,7 @@ class BookController extends Controller
     public function store(Request $request)
     {
         // Validation
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'year' => 'required|numeric',
-            'category_id' => 'required|numeric',
-            'publisher' => 'required|string',
-            'cover' => 'required',
-            'stock' => 'required|numeric',
-        ]);
+        $this->validateBook($request);
 
         // Upload cover image
         $coverImage = $request->file('cover');
@@ -60,7 +53,8 @@ class BookController extends Controller
     }
 
 
-    public function edit($id) {
+    public function edit($id)
+    {
         $book = Book::find($id);
         $categories = Category::get();
         return view('admin.books.edit', compact('book', 'categories'));
@@ -68,16 +62,7 @@ class BookController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validasi input
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'author' => 'required|string|max:255',
-            'year' => 'required|numeric',
-            'category_id' => 'required|numeric',
-            'publisher' => 'required|string',
-            'stock' => 'required|numeric',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Cover bisa kosong
-        ]);
+        $this->validateBook($request);
 
         // Ambil data buku
         $book = Book::findOrFail($id);
@@ -113,18 +98,39 @@ class BookController extends Controller
 
 
     public function destroy($id)
-{
-    $book = Book::findOrFail($id);
+    {
+        $book = Book::findOrFail($id);
 
-    // Hapus file cover jika ada
-    if ($book->cover && file_exists(public_path($book->cover))) {
-        unlink(public_path($book->cover));
+        // Hapus file cover jika ada
+        if ($book->cover && file_exists(public_path($book->cover))) {
+            unlink(public_path($book->cover));
+        }
+
+        // Hapus buku dari database
+        $book->delete();
+
+        return redirect()->route('book')->with('message', 'Buku berhasil dihapus.');
     }
 
-    // Hapus buku dari database
-    $book->delete();
+    private function validateBook(Request $request)
+    {
+        $rules = [
+            'title' => 'required|string|max:255',
+            'author' => 'required|string|max:255',
+            'year' => 'required|numeric',
+            'category_id' => 'required|numeric',
+            'publisher' => 'required|string',
+            'stock' => 'required|numeric',
+        ];
 
-    return redirect()->route('book')->with('message', 'Buku berhasil dihapus.');
-}
+        if ($request->isMethod('post')) {
+            // Saat create: cover wajib
+            $rules['cover'] = 'required|image|mimes:jpeg,png,jpg|max:2048';
+        } else {
+            // Saat update: cover boleh kosong
+            $rules['cover'] = 'nullable|image|mimes:jpeg,png,jpg|max:2048';
+        }
 
+        $request->validate($rules);
+    }
 }

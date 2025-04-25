@@ -9,9 +9,9 @@
 </div>
 
 @if(session('message'))
-    <div class="alert alert-success">
-        {{ session('message') }}
-    </div>
+<div class="alert alert-success">
+    {{ session('message') }}
+</div>
 @endif
 
 <div class="row">
@@ -37,7 +37,11 @@
                             <td>{{$category->name}}</td>
                             <td>
                                 <button href="#" class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#editCategoryModal{{ $category->id }}">Edit</button>
-                                <a href="#" class="btn btn-sm btn-danger">Delete</a>
+                                <form action="{{ route('category.destroy', $category->id) }}" method="POST" class="d-inline">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
                             </td>
                         </tr>
                         @empty
@@ -100,7 +104,7 @@
                     @method('PUT')
                     <div class="form-group">
                         <label for="editCategoryName{{ $category->id }}">Nama Kategori</label>
-                        <input type="text" name="name" value="{{ old('name', $category->name) }}" class="form-control @error('name') is-invalid @enderror" id="editCategoryName{{ $category->id }}" required>
+                        <input type="text" name="name" value="{{ old('name', $category->name) }}" class="form-control @error('name') is-invalid @enderror" id="editCategoryName{{ $category->id }}">
                         @error('name')
                         <div class="invalid-feedback">
                             {{ $message }}
@@ -120,12 +124,12 @@
 
 
 @if ($errors->any())
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var categoryModal = new bootstrap.Modal(document.getElementById('categoryModal'));
-            categoryModal.show();
-        });
-    </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var categoryModal = new bootstrap.Modal(document.getElementById('categoryModal'));
+        categoryModal.show();
+    });
+</script>
 @endif
 
 

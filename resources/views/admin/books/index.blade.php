@@ -24,7 +24,6 @@
     </nav>
 </div>
 
-
 <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
         <div class="card-body">
@@ -40,6 +39,7 @@
                         <th> Action </th>
                     </tr>
                 </thead>
+
                 <tbody>
                     @forelse($books as $book)
                     <tr>

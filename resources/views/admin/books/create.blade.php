@@ -26,6 +26,7 @@
                 <p class="card-description"> Isi data di bawah ini untuk menambahkan buku baru pada perpustakaan </p>
                 <form class="forms-sample" method="post" action="{{ route('book.store') }}" enctype="multipart/form-data">
                     @csrf
+
                     <div class="form-group">
                         <label for="title">Judul Buku</label>
                         <input type="text" name="title" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}" id="title" placeholder="Masukan Judul Buku">
@@ -33,6 +34,7 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
                     <div class="form-group">
                         <label for="category">Pilih Kategori Buku</label>
                         <select class="form-select" id="category" name="category_id">
@@ -42,6 +44,7 @@
                             @endforeach
                         </select>
                     </div>
+
                     <div class="form-group">
                         <label for="author">Penulis</label>
                         <input type="text" name="author" class="form-control @error('author') is-invalid @enderror" value="{{ old('author') }}" id="author" placeholder="Masukan Nama Penulis">
@@ -49,6 +52,7 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                    
                     <div class="form-group">
                         <label for="publisher">Publisher</label>
                         <input type="text" name="publisher" class="form-control @error('publisher') is-invalid @enderror" value="{{ old('publisher') }}" id="publisher" placeholder="Masukan Publisher">

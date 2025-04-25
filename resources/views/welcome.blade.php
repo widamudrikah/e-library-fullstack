@@ -1,93 +1,175 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Laravel</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-
-    @vite('resources/css/app.css')
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ asset('mycss/style.css')}}">
 </head>
 
-<body class="bg-background">
-    <header class="flex justify-between items-center mt-8 article">
-        <div class="flex items-center">
-            <img src="../assets/logo.svg" alt="" width="30">
-            <span class="font-playfair ml-4 text-lg font-bold text-primary">
-                IDN<span class="text-secondary">'S</span> Library
-            </span>
-        </div>
+<body>
 
-        <nav>
-            <ul class="flex space-x-8">
-                <li class="nav-item"><a href="#">Home</a></li>
-                <li class="nav-item"><a href="#">About</a></li>
-                <li class="nav-item"><a href="#">Contact</a></li>
-                <li class="nav-item"><a href="#">Vision</a></li>
-            </ul>
+    <header>
+        <nav class="navbar navbar-expand-lg container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-book-half me-2"></i> E-Library IDN Akhwat
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav gap-2">
+                    @auth
+                    <li class="nav-item"><a class="nav-link" href="{{ route('student.dashboard') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('student.all.book') }}">Semua Buku</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('student.borrow.all') }}">Pinjamanku</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Logout
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </li>
+                    @else
+                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-purple px-3" href="{{ route('register') }}">Register</a></li>
+                    @endauth
+                </ul>
+            </div>
         </nav>
-
-        <div class="relative">
-            <i class="fa-solid fa-magnifying-glass absolute top-1/2 left-3 transform -translate-y-1/2"></i>
-            <input class="w-80 h-11 ps-9 py-2 rounded-md focus:outline-none" type="text" placeholder="Search.."
-                name="search">
-        </div>
-
-        <div class="flex items-center space-x-6">
-            <a href="#" class="bg-transparent text-primary uppercase text-lg font-semibold font-roboto">
-                Login
-            </a>
-            <a href="#" class="btn-primary">
-                Register
-            </a>
-        </div>
     </header>
 
-    <main class="section">
-        <!-- Hero -->
-        <article class="flex items-center justify-between relative">
-            <section class="mt-14">
-                <h4 class="text-gray-500 font-semibold text-lg">Anywhere and Everywhere. </h4>
-                <h1 class="text-primary text-5xl font-semibold tracking-wide mt-3">Welcome To TEE’S LIBRARY</h1>
-                <p class="font-roboto text-lg font-normal text-gray-500 tracking-wide w-2/6 leading-9 mt-3">Track your
-                    Reading and Build your Library.
-                    Discover your next Favourite Book.
-                    Browse from the Largest Collections of Ebooks.
-                    Read stories from anywhere at anytime.</p>
+    <section class="hero text-center">
+        <div class="container">
+            <h1 class="display-4 fw-bold">Selamat Datang di E-Library</h1>
+            <p class="lead">Perpustakaan digital SMK IDN Boarding School Akhwat, lengkap, modern, dan islami.</p>
+            <a href="#books" class="btn btn-light btn-lg mt-4">Lihat Buku</a>
+        </div>
+    </section>
 
-                <button class="btn-primary mt-4">Get Started For Free</button>
+    <section id="features" class="py-5">
+        <div class="container text-center">
+            <h2 class="section-title mb-4">Kenapa Pilih E-Library IDN?</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <i class="mdi mdi-book-open-page-variant text-purple fs-1"></i>
+                    <h5 class="mt-2">Koleksi Lengkap</h5>
+                    <p>Buku pelajaran, fiksi, agama, teknologi, dan masih banyak lagi.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="mdi mdi-cellphone-link text-purple fs-1"></i>
+                    <h5 class="mt-2">Akses Mudah</h5>
+                    <p>Buka perpustakaan dari perangkat manapun, kapanpun.</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="mdi mdi-account-group text-purple fs-1"></i>
+                    <h5 class="mt-2">Untuk Semua</h5>
+                    <p>Siswa dan guru bisa mengakses sesuai kebutuhan masing-masing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                <!-- Contact Section at Bottom -->
-                <div class="flex flex-col items-start mt-16 gap-y-3">
-                    <p class="text-lg font-semibold text-primary">Contact us</p>
-                    <p class="text-sm font-normal text-slate-400">Address: Bogor, Indonesia</p>
-                    <p class="text-sm font-normal text-slate-400">Email: IDNLibrary@gmail.com</p>
-                    <div class="flex space-x-4 mt-2">
-                        <a href="#">
-                            <i class="fab fa-facebook-square text-2xl"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fab fa-twitter-square text-2xl"></i>
-                        </a>
-                        <a href="#">
-                            <i class="fab fa-instagram-square text-2xl"></i>
-                        </a>
+    <section id="books" class="py-5 bg-light">
+        <div class="container">
+            <h2 class="section-title text-center mb-4">Buku Terbaru</h2>
+            <div class="row">
+                @foreach($books->take(4) as $book)
+                <div class="col-md-3 mb-3">
+                    <div class="card h-100">
+                        <img src="{{ asset($book->cover) }}" class="card-img-top" alt="{{ $book->title }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ $book->title }}</h5>
+                            <p class="card-text">{{ Str::limit($book->description, 100) }}</p>
+                            <span class="badge bg-purple">{{ $book->category->name }}</span>
+                        </div>
                     </div>
                 </div>
-            </section>
+                @endforeach
+            </div>
+            <div class="text-center mt-3">
+                <a href="{{ route('book') }}" class="btn btn-purple">Lihat Semua Buku</a>
+            </div>
+        </div>
+    </section>
 
-            <section class="absolute right-0 top-0 px">
-                <img src="../assets/Illustration.svg" width="650" alt="">
-            </section>
-        </article>
-    </main>
+    <section id="categories" class="py-5 bg-white">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">Kategori Buku</h2>
+            <div class="row justify-content-center">
+                @foreach ($categories as $category)
+                <div class="col-md-3 col-sm-6 mb-4">
+                    <div class="card shadow-sm border-0 h-100 category-card text-center">
+                        <div class="card-body">
+                            <div class="category-icon mb-3">
+                                <i class="bi bi-bookmarks-fill text-purple fs-1"></i>
+                            </div>
+                            <h5 class="card-title text-dark">{{ $category->name }}</h5>
+                            <p class="text-muted small">{{ $category->books->count() }} Buku</p>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </section>
 
+    <section id="testimonials" class="py-5 bg-light">
+        <div class="container text-center">
+            <h2 class="section-title mb-4">Apa Kata Mereka?</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <blockquote class="blockquote">
+                        <p>“E-Library IDN sangat membantu saya dalam belajar dan menambah ilmu!”</p>
+                        <footer class="blockquote-footer">Aisyah, Siswi RPL</footer>
+                    </blockquote>
+                </div>
+                <div class="col-md-4">
+                    <blockquote class="blockquote">
+                        <p>“Akses cepat dan koleksi bukunya luar biasa!”</p>
+                        <footer class="blockquote-footer">Fatimah, Guru Bahasa</footer>
+                    </blockquote>
+                </div>
+                <div class="col-md-4">
+                    <blockquote class="blockquote">
+                        <p>“Modern, islami, dan sangat berguna. Terbaik!”</p>
+                        <footer class="blockquote-footer">Khadijah, Siswi DKV</footer>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cta" class="py-5 text-center" style="background-color: #9d4edd;">
+        <div class="container text-white">
+            <h2 class="mb-3">Siap Menjelajah Ilmu?</h2>
+            <p>Gabung sekarang dan temukan buku-buku menarik setiap harinya.</p>
+            <a href="{{ route('login') }}" class="btn btn-light">Masuk Sekarang</a>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-4">
+        <div class="container d-flex justify-content-between flex-wrap">
+            <div>
+                <h5>E-Library IDN</h5>
+                <p class="small">Perpustakaan digital SMK IDN Boarding School Akhwat.</p>
+            </div>
+            <div>
+                <h6>Kontak</h6>
+                <p class="small">Jl. Raya Cileungsi - Jonggol KM. 5, Cileungsi, Bogor</p>
+                <p class="small">Email: info@idn.sch.id</p>
+            </div>
+        </div>
+        <div class="text-center mt-3 small">&copy; 2025 IDN Akhwat. All rights reserved.</div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

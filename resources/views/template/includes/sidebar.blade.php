@@ -78,13 +78,13 @@
             <div class="collapse" id="charts">
                 <ul class="nav flex-column sub-menu">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Semua Peminjaman</a>
+                        <a class="nav-link" href="{{ route('borrowing.all') }}">Semua Peminjaman</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Peminjaman Aktif</a>
+                        <a class="nav-link" href="{{ route('borrowing.unreturned') }}">Peminjaman Aktif</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Peminjaman Selesai</a>
+                        <a class="nav-link" href="{{ route('borrowing.returned') }}">Peminjaman Selesai</a>
                     </li>
                 </ul>
             </div>
